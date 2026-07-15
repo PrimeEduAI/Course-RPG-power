@@ -217,12 +217,7 @@ function loop() {
   updateTweens(dt);
   hero.update(t, dt);
   particles.update(dt);
-  for (let i = 0; i < stage.clouds.length; i++) {
-    const c = stage.clouds[i];
-    c.position.x += dt * 0.12 * (i % 2 ? 1 : -1);
-    if (c.position.x > 12) c.position.x = -12;
-    if (c.position.x < -12) c.position.x = 12;
-  }
+  stage.update(t, dt);
   stage.controls.update();
   stage.renderer.render(stage.scene, stage.camera);
 }

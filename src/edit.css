@@ -1,19 +1,22 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* 日系奇幻 RPG 深色主題(與冒險頁一致) */
 :root {
-  --panel-bg: #ffffff;
-  --border: #8ec5f5;
-  --accent: #4a90e2;
-  --accent2: #ffd66e;
-  --ink: #2f4a6e;
-  --muted: #7a94b5;
-  --line: #d5e5f5;
-  --font: "Yuanti TC", "LXGW WenKai TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --panel-bg: rgba(20, 26, 48, 0.92);
+  --line: rgba(207, 172, 108, 0.28);
+  --line-strong: rgba(207, 172, 108, 0.65);
+  --gold: #d9b877;
+  --gold-bright: #f2dca4;
+  --ink: #ece4d0;
+  --muted: #97a2c2;
+  --input-bg: #141a30;
+  --font: "PingFang TC", "Hiragino Sans", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --font-title: "Hiragino Mincho ProN", "Songti TC", "Noto Serif TC", serif;
 }
 
 body {
   font-family: var(--font);
-  background: linear-gradient(180deg, #dcedfc, #eef5fc);
+  background: linear-gradient(180deg, #1b2240, #10142a);
   color: var(--ink);
   min-height: 100vh;
 }
@@ -23,110 +26,112 @@ body {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 14px 22px;
-  background: linear-gradient(135deg, #8ec5f5, #609fe8);
-  color: #fff;
-  box-shadow: 0 3px 10px rgba(96, 159, 232, .35);
+  background: linear-gradient(180deg, rgba(48,56,92,.97), rgba(22,28,52,.97));
+  border-bottom: 1px solid var(--line-strong);
+  color: var(--gold-bright);
+  box-shadow: 0 3px 14px rgba(0,0,0,.5);
   flex-wrap: wrap;
 }
-#ed-top h1 { font-size: 20px; letter-spacing: 1px; }
+#ed-top h1 { font-family: var(--font-title); font-size: 20px; letter-spacing: 3px; text-shadow: 0 0 12px rgba(217,184,119,.3); }
 #ed-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 #ed-actions a, #ed-actions button {
-  font-family: var(--font); font-size: 15px; font-weight: 800;
-  padding: 8px 16px; border-radius: 12px; cursor: pointer; text-decoration: none;
-  border: 2px solid rgba(255,255,255,.6); background: rgba(255,255,255,.15); color: #fff;
+  font-family: var(--font); font-size: 14px; font-weight: 800; letter-spacing: 1px;
+  padding: 8px 16px; border-radius: 6px; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--line-strong); background: rgba(217,184,119,.1); color: var(--gold-bright);
   transition: transform .12s, background .2s;
 }
-#ed-actions a:hover, #ed-actions button:hover { transform: scale(1.05); background: rgba(255,255,255,.28); }
-#btn-save { background: var(--accent) !important; border-color: #fff !important; }
+#ed-actions a:hover, #ed-actions button:hover { transform: scale(1.05); background: rgba(217,184,119,.25); }
+#btn-save { background: linear-gradient(135deg, #f2dca4, #c9973f) !important; color: #1a1f36 !important; border-color: var(--gold-bright) !important; }
 #btn-save.dirty { animation: pulse 1.2s ease-in-out infinite; }
-@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,140,66,.7); } 50% { box-shadow: 0 0 0 8px rgba(255,140,66,0); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(242,220,164,.6); } 50% { box-shadow: 0 0 0 8px rgba(242,220,164,0); } }
 
 /* ---------- 主要區 ---------- */
 main { max-width: 980px; margin: 0 auto; padding: 20px 18px 80px; }
 #ed-hint {
-  background: #fffbea; border: 2px dashed var(--accent2); border-radius: 12px;
+  background: rgba(217,184,119,.07); border: 1px dashed var(--line-strong); border-radius: 8px;
   padding: 10px 16px; font-size: 14px; color: var(--muted); margin-bottom: 22px;
 }
+#ed-hint b { color: var(--gold); }
 section { margin-bottom: 34px; }
 h2 {
-  font-size: 19px; margin-bottom: 12px; color: var(--ink);
-  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-title); font-size: 18px; margin-bottom: 12px;
+  color: var(--gold-bright); letter-spacing: 2px;
+  display: flex; align-items: center; gap: 10px;
 }
-h2::after { content: ""; flex: 1; height: 2px; background: var(--line); border-radius: 2px; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-strong), transparent); }
 
 /* ---------- 章節卡 ---------- */
-.chapter-card {
-  background: var(--panel-bg); border: 2px solid var(--border); border-radius: 16px;
-  padding: 14px; margin-bottom: 14px; box-shadow: 0 3px 0 rgba(0,0,0,.12);
+.chapter-card, .talent-card {
+  background: var(--panel-bg); border: 1px solid var(--line-strong); border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 0 2px var(--line), 0 6px 18px rgba(0,0,0,.4);
+  padding: 14px; margin-bottom: 14px;
 }
 .chapter-head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
 .chapter-head input {
-  flex: 1; font-family: var(--font); font-size: 16px; font-weight: 800; color: var(--ink);
-  border: 2px solid var(--line); border-radius: 10px; padding: 7px 10px; background: #fff;
+  flex: 1; font-family: var(--font-title); font-size: 16px; font-weight: 700; color: var(--gold-bright);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; background: var(--input-bg);
+  letter-spacing: 1px;
 }
 .item-row {
   display: grid;
   grid-template-columns: 56px 1.1fr 1.6fr 1.2fr auto;
   gap: 8px; align-items: center;
-  background: #fff; border: 2px solid var(--line); border-radius: 12px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 8px;
   padding: 8px; margin-bottom: 8px;
 }
-.item-row input, .item-row select {
+.item-row input, .item-row select, .talent-row input {
   font-family: var(--font); font-size: 14px; color: var(--ink);
-  border: 2px solid var(--line); border-radius: 8px; padding: 6px 8px; background: #fffdf6;
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; background: var(--input-bg);
   width: 100%; min-width: 0;
 }
+.item-row select option { background: var(--input-bg); color: var(--ink); }
 .item-row input:focus, .item-row select:focus, .chapter-head input:focus,
-.talent-row input:focus { outline: none; border-color: var(--accent); }
-.item-row .icon-input { text-align: center; font-size: 18px; padding: 4px; }
-.field-label { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; display: block; }
+.talent-row input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 6px rgba(217,184,119,.3); }
+.item-row .icon-input, .talent-row .icon-input { text-align: center; font-size: 18px; padding: 4px; }
+.field-label { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; display: block; letter-spacing: 1px; }
 
 .btn-del {
-  border: none; background: #ffe3e0; color: #c0392b; font-weight: 800;
-  border-radius: 8px; padding: 6px 10px; cursor: pointer; font-family: var(--font); font-size: 13px;
-  white-space: nowrap;
+  border: 1px solid rgba(224,110,110,.4); background: rgba(224,110,110,.12); color: #e89a9a;
+  font-weight: 800; border-radius: 6px; padding: 6px 10px; cursor: pointer;
+  font-family: var(--font); font-size: 13px; white-space: nowrap;
+  transition: background .2s;
 }
-.btn-del:hover { background: #ffc9c4; }
+.btn-del:hover { background: rgba(224,110,110,.28); }
 .btn-add {
-  border: 2px dashed var(--accent); background: #eef5fc; color: #3a72b8;
-  font-family: var(--font); font-size: 14px; font-weight: 800;
-  border-radius: 12px; padding: 9px 16px; cursor: pointer; width: 100%;
+  border: 1px dashed var(--line-strong); background: rgba(217,184,119,.06); color: var(--gold);
+  font-family: var(--font); font-size: 14px; font-weight: 800; letter-spacing: 1px;
+  border-radius: 8px; padding: 9px 16px; cursor: pointer; width: 100%;
+  transition: background .2s;
 }
-.btn-add:hover { background: #ddecfa; }
+.btn-add:hover { background: rgba(217,184,119,.16); }
 .chapter-card .btn-add { margin-top: 2px; }
 
 /* ---------- 天賦 ---------- */
 #root-talent { margin-bottom: 14px; }
-.talent-card {
-  background: var(--panel-bg); border: 2px solid var(--border); border-radius: 16px;
-  padding: 14px; box-shadow: 0 3px 0 rgba(0,0,0,.12);
-}
-.talent-card.branch { border-top-width: 6px; }
+.talent-card.branch { border-top-width: 3px; }
 #branches { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
 .branch-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.branch-head .branch-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
-.branch-head input {
-  flex: 1; font-family: var(--font); font-size: 15px; font-weight: 800; color: var(--ink);
-  border: 2px solid var(--line); border-radius: 10px; padding: 6px 10px; background: #fff; min-width: 0;
+.branch-head .branch-dot { width: 12px; height: 12px; border-radius: 2px; transform: rotate(45deg); flex: none; }
+.branch-head input, .branch-head b {
+  flex: 1; font-family: var(--font-title); font-size: 15px; font-weight: 700; color: var(--gold-bright);
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; background: var(--input-bg);
+  min-width: 0; letter-spacing: 1px;
 }
+.branch-head b { border: none; background: none; padding: 0; }
 .talent-row {
-  background: #fff; border: 2px solid var(--line); border-radius: 12px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 8px;
   padding: 8px; margin-bottom: 8px;
   display: grid; grid-template-columns: 48px 1fr auto; gap: 8px; align-items: start;
-}
-.talent-row .icon-input { text-align: center; font-size: 18px; padding: 4px; width: 100%; }
-.talent-row input {
-  font-family: var(--font); font-size: 14px; color: var(--ink);
-  border: 2px solid var(--line); border-radius: 8px; padding: 6px 8px; background: #fffdf6; width: 100%; min-width: 0;
 }
 .talent-fields { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 
 /* ---------- Toast ---------- */
 #toast {
   position: fixed; z-index: 40; left: 50%; bottom: 30px; transform: translateX(-50%);
-  background: var(--panel-bg); border: 3px solid var(--accent); border-radius: 16px;
-  padding: 12px 22px; font-size: 16px; font-weight: 800; color: var(--ink);
-  box-shadow: 0 6px 20px rgba(0,0,0,.25); pointer-events: none; text-align: center;
+  background: var(--panel-bg); border: 1px solid var(--line-strong); border-radius: 8px;
+  box-shadow: inset 0 0 0 2px var(--line), 0 6px 20px rgba(0,0,0,.5);
+  padding: 12px 24px; font-size: 15px; font-weight: 800; color: var(--gold-bright);
+  letter-spacing: 1px; pointer-events: none; text-align: center;
 }
 .hidden { display: none !important; }
 
