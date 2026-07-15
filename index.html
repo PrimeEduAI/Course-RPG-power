@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 影片冒險者</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+
+    <header id="hud-top">
+      <div id="level-card">
+        <div id="level-title">Lv.1 新手冒險者</div>
+        <div id="exp-bar"><div id="exp-fill"></div></div>
+        <div id="exp-text">0 / 19</div>
+      </div>
+    </header>
+
+    <button id="btn-bag" class="hud-btn" title="冒險背包">🎒 冒險背包</button>
+    <button id="btn-talent" class="hud-btn" title="導演天賦">✨ 導演天賦</button>
+
+    <aside id="bag-panel" class="panel hidden">
+      <div class="panel-head">
+        <span>🎒 冒險背包 · 知識點裝備</span>
+        <button class="panel-close" data-close="bag-panel">✕</button>
+      </div>
+      <div id="bag-list" class="panel-body"></div>
+      <div class="panel-foot">
+        <button id="btn-reset">🔄 新的冒險（重置進度）</button>
+      </div>
+    </aside>
+
+    <div id="talent-overlay" class="hidden">
+      <div id="talent-card">
+        <div class="panel-head">
+          <span>✨ 導演天賦 · 導演思維技能樹</span>
+          <button class="panel-close" data-close="talent-overlay">✕</button>
+        </div>
+        <div id="talent-tree"></div>
+        <div id="talent-hint">點亮天賦節點，冒險者會獲得導演的思維光環！</div>
+      </div>
+    </div>
+
+    <div id="toast" class="hidden"></div>
+    <div id="hint-bottom">教到哪個知識點，就打勾幫冒險者穿上裝備吧！（拖曳畫面可以旋轉視角）</div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
