@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { createStage } from "./scene.ts";
-import { Adventurer } from "./character.ts";
+import { Adventurer, type HeroVariant } from "./character.ts";
 import { buildEquip } from "./equipment.ts";
 import { ParticleSystem } from "./particles.ts";
 import { tween, updateTweens, easeOutBack } from "./tween.ts";
@@ -22,10 +22,32 @@ addEventListener("storage", (e) => {
 
 // ---------- 場景 ----------
 const stage = createStage(document.querySelector("#scene") as HTMLCanvasElement);
-const hero = new Adventurer();
+const HERO_KEY = "ai-video-quest-hero-v1";
+let heroVariant: HeroVariant = localStorage.getItem(HERO_KEY) === "girl" ? "girl" : "boy";
+let hero = new Adventurer(heroVariant);
 stage.scene.add(hero.root);
 const particles = new ParticleSystem();
 stage.scene.add(particles.group);
+
+// 切換少年/少女(按鈕顯示「另一位」的圖示)
+const heroBtn = document.querySelector("#btn-hero") as HTMLButtonElement;
+function refreshHeroBtn() {
+  heroBtn.textContent = heroVariant === "boy" ? "👧" : "👦";
+}
+refreshHeroBtn();
+heroBtn.addEventListener("click", () => {
+  heroVariant = heroVariant === "boy" ? "girl" : "boy";
+  localStorage.setItem(HERO_KEY, heroVariant);
+  stage.scene.remove(hero.root);
+  hero = new Adventurer(heroVariant);
+  stage.scene.add(hero.root);
+  for (const id of progress.equips) equipItem(id, false); // 裝備原樣穿回
+  refreshAura();
+  refreshHeroBtn();
+  particles.burst(new THREE.Vector3(0, 1.3, 0), heroVariant === "girl" ? "#ff9ec4" : "#9fc3d4", 24);
+  playTalent();
+  showToast(heroVariant === "girl" ? "👧 換成少女冒險者!" : "👦 換成少年冒險者!");
+});
 
 // ---------- 進度 ----------
 const progress: Progress = loadProgress();

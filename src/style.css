@@ -164,6 +164,19 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: var(--fon
 }
 #btn-edit:hover { opacity: 1; transform: scale(1.1); }
 
+/* 少年/少女切換鈕(左下角) */
+#btn-hero {
+  position: fixed; z-index: 8; left: 14px; bottom: 14px;
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; cursor: pointer;
+  background: var(--panel-bg); border: 3px solid var(--panel-border);
+  box-shadow: 0 3px 0 rgba(0,0,0,.18);
+  transition: transform .15s;
+}
+#btn-hero:hover { transform: scale(1.12); }
+#btn-hero:active { transform: scale(.94); }
+
 .hidden { display: none !important; }
 
 @media (max-width: 640px) {
