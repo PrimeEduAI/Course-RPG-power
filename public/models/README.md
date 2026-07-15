@@ -23,7 +23,9 @@
   (來源 [Sketchfab](https://sketchfab.com/3d-models/girl-knight-084e97be8dc3428ba23665686747831f),
   授權 **CC BY-NC 4.0**——需標註作者(冒險頁左欄底部已標註)、**不可商業使用**;
   收費課程請換成可商用的模型,檔案同名替換即可)。
-- 少年目前用內建程式化騎士;要換就放 `hero-boy.vrm/.glb`。
+- `hero-boy.glb` + `hero-boy.json`:**"Anime Sword Boy" by CalvinQuan**
+  (來源 [Sketchfab](https://sketchfab.com/3d-models/anime-sword-boy-9e1bdb4f137d44228e6b8876af8bcfc6),
+  授權 **CC BY 4.0**——需標註作者(已標註),**可商業使用**)。
 
 ## 每模型設定檔(模型同名 .json,選用)
 

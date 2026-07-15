@@ -1,0 +1,14 @@
+{
+  "_comment": "Anime Sword Boy by CalvinQuan (Sketchfab, CC BY 4.0) 的模型設定:隱藏自帶的水晶劍、微調裝備錨點",
+  "hide": ["WaterSword"],
+  "anchors": {
+    "head":  { "pos": [0.05, 1.81, 0.05], "scale": 0.5 },
+    "crown": { "pos": [0.04, 1.99, 0], "scale": 0.58 },
+    "handR": { "pos": [0.33, 0.93, 0.08], "scale": 0.85 },
+    "handL": { "pos": [-0.29, 1.03, 0.1], "scale": 0.8 },
+    "chest": { "pos": [0.02, 1.33, 0.02], "scale": 0.75 },
+    "back":  { "pos": [0.02, 1.47, -0.12], "scale": 0.9 },
+    "belt":  { "pos": [0, 1.06, 0.02], "scale": 0.75 },
+    "feet":  { "pos": [0.02, 0, 0.04], "scale": 0.95 }
+  }
+}
