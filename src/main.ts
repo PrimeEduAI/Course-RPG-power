@@ -6,10 +6,19 @@ import { ParticleSystem } from "./particles.ts";
 import { tween, updateTweens, easeOutBack } from "./tween.ts";
 import { setupUI, showToast, updateHud } from "./ui.ts";
 import { loadProgress, saveProgress, resetProgress, type Progress } from "./state.ts";
-import { CHAPTERS, TALENTS, BRANCH_COLORS, levelFor, type TalentBranch } from "./content.ts";
+import { MODELS, BRANCH_COLORS, type TalentBranch } from "./content.ts";
+import { loadContent, allItems, totalExp, levelFor, CONTENT_KEY } from "./contentStore.ts";
 import { playEquip, playUnequip, playTalent, playLevelUp } from "./sound.ts";
 
-const ALL_ITEMS = CHAPTERS.flatMap((c) => c.items);
+// ---------- 課程內容(可在 /edit.html 編輯) ----------
+const content = loadContent();
+const ALL_ITEMS = allItems(content);
+const TOTAL = totalExp(content);
+
+// 編輯器存檔後,冒險頁自動重新載入(進度保留在另一個 key)
+addEventListener("storage", (e) => {
+  if (e.key === CONTENT_KEY) location.reload();
+});
 
 // ---------- 場景 ----------
 const stage = createStage(document.querySelector("#scene") as HTMLCanvasElement);
@@ -20,6 +29,10 @@ stage.scene.add(particles.group);
 
 // ---------- 進度 ----------
 const progress: Progress = loadProgress();
+// 內容被編輯過的話,清掉已不存在的 id
+progress.equips = progress.equips.filter((id) => ALL_ITEMS.some((i) => i.id === id));
+progress.talents = progress.talents.filter((id) => content.talents.some((t) => t.id === id));
+
 let lastTitle = "";
 
 function exp(): number {
@@ -28,8 +41,8 @@ function exp(): number {
 
 function refreshHud(celebrate: boolean) {
   const e = exp();
-  updateHud(e);
-  const title = levelFor(e);
+  updateHud(e, TOTAL);
+  const title = levelFor(e, TOTAL);
   if (celebrate && lastTitle && title !== lastTitle && e > 0) {
     playLevelUp();
     showToast(`🎺 升級!你現在是「${title.replace(/^Lv\.\d+ /, "")}」`);
@@ -47,10 +60,16 @@ function equipItem(id: string, animate: boolean) {
   const item = ALL_ITEMS.find((i) => i.id === id);
   if (!item) return;
 
-  const group = buildEquip(id);
-  const slotGroup = hero.attach[item.slot];
+  const slot = (MODELS[item.model] ?? MODELS.badge).slot;
+  const group = buildEquip(item.model);
+  const slotGroup = hero.attach[slot];
+  // 多個徽章時左右錯開,避免疊在同一點
+  if (slot === "badge") {
+    const n = [...hero.equipped.values()].filter((e) => e.slot === "badge").length;
+    group.position.x += (n % 2 === 0 ? 1 : -1) * Math.ceil(n / 2) * 0.45;
+  }
   slotGroup.add(group);
-  hero.equipped.set(id, { group, slot: item.slot });
+  hero.equipped.set(id, { group, slot });
 
   if (!animate) return;
 
@@ -96,14 +115,14 @@ function unequipItem(id: string) {
 function refreshAura() {
   const branches = new Set<TalentBranch>();
   for (const id of progress.talents) {
-    const node = TALENTS.find((t) => t.id === id);
+    const node = content.talents.find((t) => t.id === id);
     if (node) branches.add(node.branch);
   }
   hero.setAura(branches);
 }
 
 // ---------- UI 綁定 ----------
-setupUI(progress, {
+setupUI(content, progress, {
   onEquipToggle(id, on) {
     if (on) {
       if (!progress.equips.includes(id)) progress.equips.push(id);
@@ -116,7 +135,7 @@ setupUI(progress, {
     refreshHud(on);
   },
   onTalentToggle(id, on) {
-    const node = TALENTS.find((t) => t.id === id)!;
+    const node = content.talents.find((t) => t.id === id)!;
     if (on) {
       if (!progress.talents.includes(id)) progress.talents.push(id);
       playTalent();
@@ -140,7 +159,7 @@ setupUI(progress, {
 for (const id of progress.equips) equipItem(id, false);
 refreshAura();
 refreshHud(false);
-lastTitle = levelFor(exp());
+lastTitle = levelFor(exp(), TOTAL);
 
 // ---------- 主迴圈 ----------
 const clock = new THREE.Clock();
@@ -164,4 +183,4 @@ function loop() {
 loop();
 
 // 開發偵錯用
-(window as any).__quest = { stage, hero, progress };
+(window as any).__quest = { stage, hero, progress, content };

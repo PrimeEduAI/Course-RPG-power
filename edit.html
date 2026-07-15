@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>課程內容編輯器 · AI 影片冒險者</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>" />
+    <link rel="stylesheet" href="/src/edit.css" />
+  </head>
+  <body>
+    <header id="ed-top">
+      <h1>✏️ 課程內容編輯器</h1>
+      <div id="ed-actions">
+        <a id="btn-back" href="/">🎮 回到冒險頁</a>
+        <button id="btn-restore">↩️ 還原預設</button>
+        <button id="btn-save">💾 儲存變更</button>
+      </div>
+    </header>
+
+    <main>
+      <p id="ed-hint">
+        在這裡編輯課程的<b>知識點(裝備)</b>與<b>導演思維(天賦)</b>。
+        按「儲存變更」後,冒險頁會自動更新;小朋友已打勾的進度會保留。
+      </p>
+
+      <section>
+        <h2>🎒 章節與知識點(裝備)</h2>
+        <div id="chapters"></div>
+        <button id="btn-add-chapter" class="btn-add">➕ 新增章節</button>
+      </section>
+
+      <section>
+        <h2>✨ 導演天賦(思維技能樹)</h2>
+        <div id="root-talent"></div>
+        <div id="branches"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="hidden"></div>
+    <script type="module" src="/src/edit.ts"></script>
+  </body>
+</html>

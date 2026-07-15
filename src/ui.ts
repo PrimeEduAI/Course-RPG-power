@@ -1,4 +1,5 @@
-import { CHAPTERS, TALENTS, BRANCH_COLORS, TOTAL_EXP, levelFor } from "./content.ts";
+import { BRANCH_COLORS, type ContentData } from "./content.ts";
+import { talentLayout, levelFor, totalExp } from "./contentStore.ts";
 import type { Progress } from "./state.ts";
 
 export interface UICallbacks {
@@ -19,16 +20,17 @@ export function showToast(msg: string) {
   toastTimer = setTimeout(() => t.classList.add("hidden"), 2200);
 }
 
-export function updateHud(exp: number) {
-  $("#level-title").textContent = levelFor(exp);
-  $("#exp-text").textContent = `${exp} / ${TOTAL_EXP}`;
-  $<HTMLDivElement>("#exp-fill").style.width = `${(exp / TOTAL_EXP) * 100}%`;
+export function updateHud(exp: number, total: number) {
+  $("#level-title").textContent = levelFor(exp, total);
+  $("#exp-text").textContent = `${exp} / ${total}`;
+  $<HTMLDivElement>("#exp-fill").style.width = total > 0 ? `${(exp / total) * 100}%` : "0%";
 }
 
-export function setupUI(progress: Progress, cb: UICallbacks) {
+export function setupUI(content: ContentData, progress: Progress, cb: UICallbacks) {
   // ---------- 背包清單 ----------
   const bagList = $("#bag-list");
-  for (const ch of CHAPTERS) {
+  bagList.innerHTML = "";
+  for (const ch of content.chapters) {
     const title = document.createElement("div");
     title.className = "chapter-title";
     title.textContent = ch.title;
@@ -39,12 +41,15 @@ export function setupUI(progress: Progress, cb: UICallbacks) {
       row.className = "equip-item";
       row.dataset.id = item.id;
       row.innerHTML = `
-        <div class="equip-icon">${item.icon}</div>
+        <div class="equip-icon"></div>
         <div class="equip-info">
-          <div class="equip-name">${item.name}</div>
-          <div class="equip-knowledge">${item.knowledge}</div>
+          <div class="equip-name"></div>
+          <div class="equip-knowledge"></div>
         </div>
         <div class="equip-check"></div>`;
+      (row.querySelector(".equip-icon") as HTMLElement).textContent = item.icon;
+      (row.querySelector(".equip-name") as HTMLElement).textContent = item.name;
+      (row.querySelector(".equip-knowledge") as HTMLElement).textContent = item.knowledge;
       if (progress.equips.includes(item.id)) {
         row.classList.add("owned");
         row.querySelector(".equip-check")!.textContent = "✓";
@@ -60,20 +65,25 @@ export function setupUI(progress: Progress, cb: UICallbacks) {
   }
 
   // ---------- 技能樹 SVG ----------
+  const layout = talentLayout(content);
+  const posOf = new Map(layout.map((p) => [p.node.id, p]));
+
   const svgNS = "http://www.w3.org/2000/svg";
+  const treeHost = $("#talent-tree");
+  treeHost.innerHTML = "";
   const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("viewBox", "0 0 720 460");
 
   // 分支標籤
-  const branchLabels: [string, number, number, string][] = [
-    ["🌈 色彩之眼", 130, 24, BRANCH_COLORS.color],
-    ["🎬 分鏡之眼", 360, 24, BRANCH_COLORS.shot],
-    ["🎵 節奏之心", 590, 24, BRANCH_COLORS.rhythm],
+  const branchLabels: [string, number, string][] = [
+    [`🌈 ${content.branches.color}`, 130, BRANCH_COLORS.color],
+    [`🎬 ${content.branches.shot}`, 360, BRANCH_COLORS.shot],
+    [`🎵 ${content.branches.rhythm}`, 590, BRANCH_COLORS.rhythm],
   ];
-  for (const [label, x, y, color] of branchLabels) {
+  for (const [label, x, color] of branchLabels) {
     const t = document.createElementNS(svgNS, "text");
     t.setAttribute("x", String(x));
-    t.setAttribute("y", String(y));
+    t.setAttribute("y", "24");
     t.setAttribute("text-anchor", "middle");
     t.setAttribute("style", `fill:${color};font-size:15px;font-weight:800;font-family:var(--font)`);
     t.textContent = label;
@@ -82,37 +92,37 @@ export function setupUI(progress: Progress, cb: UICallbacks) {
 
   // 連線(先畫,壓在節點下面)
   const linkEls = new Map<string, SVGLineElement>();
-  for (const node of TALENTS) {
-    if (!node.parent) continue;
-    const parent = TALENTS.find((t) => t.id === node.parent)!;
+  for (const p of layout) {
+    if (!p.parentId) continue;
+    const parent = posOf.get(p.parentId);
+    if (!parent) continue;
     const line = document.createElementNS(svgNS, "line");
     line.setAttribute("x1", String(parent.x));
     line.setAttribute("y1", String(parent.y));
-    line.setAttribute("x2", String(node.x));
-    line.setAttribute("y2", String(node.y));
+    line.setAttribute("x2", String(p.x));
+    line.setAttribute("y2", String(p.y));
     line.classList.add("talent-link");
     svg.appendChild(line);
-    linkEls.set(node.id, line);
-  }
-
-  const nodeEls = new Map<string, SVGGElement>();
-
-  function refreshLinks(onSet: Set<string>) {
-    for (const node of TALENTS) {
-      const line = linkEls.get(node.id);
-      if (!line) continue;
-      const lit = onSet.has(node.id) && onSet.has(node.parent!);
-      line.classList.toggle("on", lit);
-      line.style.stroke = lit ? BRANCH_COLORS[node.branch] : "";
-    }
+    linkEls.set(p.node.id, line);
   }
 
   const talentOn = new Set(progress.talents);
 
-  for (const node of TALENTS) {
+  function refreshLinks() {
+    for (const p of layout) {
+      const line = linkEls.get(p.node.id);
+      if (!line || !p.parentId) continue;
+      const lit = talentOn.has(p.node.id) && talentOn.has(p.parentId);
+      line.classList.toggle("on", lit);
+      line.style.stroke = lit ? BRANCH_COLORS[p.node.branch] : "";
+    }
+  }
+
+  for (const p of layout) {
+    const node = p.node;
     const g = document.createElementNS(svgNS, "g");
     g.classList.add("talent-node");
-    g.setAttribute("transform", `translate(${node.x},${node.y})`);
+    g.setAttribute("transform", `translate(${p.x},${p.y})`);
     const color = BRANCH_COLORS[node.branch];
 
     const halo = document.createElementNS(svgNS, "circle");
@@ -157,15 +167,14 @@ export function setupUI(progress: Progress, cb: UICallbacks) {
       if (on) talentOn.add(node.id);
       else talentOn.delete(node.id);
       paint(on);
-      refreshLinks(talentOn);
+      refreshLinks();
       cb.onTalentToggle(node.id, on);
     });
 
     svg.appendChild(g);
-    nodeEls.set(node.id, g);
   }
-  refreshLinks(talentOn);
-  $("#talent-tree").appendChild(svg);
+  refreshLinks();
+  treeHost.appendChild(svg);
 
   // ---------- 面板開關 ----------
   $("#btn-bag").addEventListener("click", () => $("#bag-panel").classList.toggle("hidden"));
@@ -181,4 +190,6 @@ export function setupUI(progress: Progress, cb: UICallbacks) {
   $("#btn-reset").addEventListener("click", () => {
     if (confirm("要開始新的冒險嗎?所有進度會清空!")) cb.onReset();
   });
+
+  updateHud(progress.equips.length + progress.talents.length, totalExp(content));
 }
