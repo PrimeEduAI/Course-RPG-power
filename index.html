@@ -18,33 +18,32 @@
       </div>
     </header>
 
-    <button id="btn-bag" class="hud-btn" title="冒險背包">🎒 冒險背包</button>
-    <button id="btn-talent" class="hud-btn" title="導演天賦">✨ 導演天賦</button>
-
-    <aside id="bag-panel" class="panel hidden">
-      <div class="panel-head">
-        <span>🎒 冒險背包 · 知識點裝備</span>
-        <button class="panel-close" data-close="bag-panel">✕</button>
+    <!-- 左:裝備欄(知識點) -->
+    <aside id="equip-panel" class="side-panel side-left">
+      <div class="side-head">
+        <span>🎒 裝備欄 · 知識點</span>
+        <button class="collapse-btn" title="收合">▾</button>
       </div>
-      <div id="bag-list" class="panel-body"></div>
-      <div class="panel-foot">
+      <div id="bag-list" class="side-body"></div>
+      <div class="side-foot">
         <button id="btn-reset">🔄 新的冒險（重置進度）</button>
       </div>
     </aside>
 
-    <div id="talent-overlay" class="hidden">
-      <div id="talent-card">
-        <div class="panel-head">
-          <span>✨ 導演天賦 · 導演思維技能樹</span>
-          <button class="panel-close" data-close="talent-overlay">✕</button>
-        </div>
-        <div id="talent-tree"></div>
-        <div id="talent-hint">點亮天賦節點，冒險者會獲得導演的思維光環！</div>
+    <!-- 右:天賦欄(導演思維) -->
+    <aside id="talent-panel" class="side-panel side-right">
+      <div class="side-head">
+        <span>✨ 天賦欄 · 導演思維</span>
+        <button class="collapse-btn" title="收合">▾</button>
       </div>
-    </div>
+      <div class="side-body">
+        <div id="talent-tree"></div>
+        <div id="talent-hint">點亮天賦，冒險者會獲得導演的思維光環！</div>
+      </div>
+    </aside>
 
     <div id="toast" class="hidden"></div>
-    <div id="hint-bottom">教到哪個知識點，就打勾幫冒險者穿上裝備吧！（拖曳畫面可以旋轉視角）</div>
+    <div id="hint-bottom">左邊打勾穿裝備、右邊點亮天賦（拖曳畫面可以旋轉視角）</div>
     <a id="btn-edit" href="/edit.html" title="編輯知識點與天賦內容">✏️</a>
     <button id="btn-hero" title="切換少年/少女">👧</button>
 

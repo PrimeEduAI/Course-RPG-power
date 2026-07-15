@@ -26,6 +26,14 @@ function note(freq: number, at: number, dur = 0.18, type: OscillatorType = "tria
   o.stop(a.currentTime + at + dur + 0.05);
 }
 
+/** 裝備出場亮相:上行琶音 */
+export function playReveal() {
+  note(523, 0, 0.12, "sine", 0.09);
+  note(659, 0.08, 0.12, "sine", 0.09);
+  note(784, 0.16, 0.28, "sine", 0.1);
+  note(1047, 0.26, 0.4, "triangle", 0.08);
+}
+
 /** 穿裝備:叮-叮! */
 export function playEquip() {
   note(784, 0);        // G5

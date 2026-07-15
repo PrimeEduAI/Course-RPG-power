@@ -86,7 +86,9 @@ export function levelFor(exp: number, total: number): string {
   return title;
 }
 
-// ---------------- 技能樹自動排版(SVG viewBox 720x460) ----------------
+// ---------------- 技能樹自動排版(直式側欄,SVG viewBox 360x740) ----------------
+
+export const TREE_VIEWBOX = { w: 360, h: 740 };
 
 export interface PositionedTalent {
   node: TalentNode;
@@ -96,19 +98,20 @@ export interface PositionedTalent {
 }
 
 const BRANCH_X: Record<string, number[]> = {
-  color: [140, 110, 150, 120],
-  shot: [360, 360, 360, 360],
-  rhythm: [580, 610, 570, 600],
+  color: [62, 52, 72, 58],
+  shot: [180, 180, 180, 180],
+  rhythm: [298, 308, 288, 302],
 };
 
 export function talentLayout(c: ContentData): PositionedTalent[] {
   const out: PositionedTalent[] = [];
   const root = c.talents.find((t) => t.branch === "root");
-  if (root) out.push({ node: root, x: 360, y: 396 });
+  if (root) out.push({ node: root, x: 180, y: 668 });
   for (const b of ["color", "shot", "rhythm"] as const) {
     const nodes = c.talents.filter((t) => t.branch === b);
     nodes.forEach((n, i) => {
-      const y = nodes.length === 1 ? 300 : 300 - i * (226 / (nodes.length - 1));
+      // 由下往上長:第一節點靠近根,越後面越高
+      const y = nodes.length === 1 ? 350 : 540 - i * (410 / (nodes.length - 1));
       out.push({
         node: n,
         x: BRANCH_X[b][i % BRANCH_X[b].length],

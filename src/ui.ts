@@ -1,5 +1,5 @@
 import { BRANCH_COLORS, type ContentData } from "./content.ts";
-import { talentLayout, levelFor, totalExp } from "./contentStore.ts";
+import { talentLayout, levelFor, totalExp, TREE_VIEWBOX } from "./contentStore.ts";
 import type { Progress } from "./state.ts";
 
 export interface UICallbacks {
@@ -72,18 +72,18 @@ export function setupUI(content: ContentData, progress: Progress, cb: UICallback
   const treeHost = $("#talent-tree");
   treeHost.innerHTML = "";
   const svg = document.createElementNS(svgNS, "svg");
-  svg.setAttribute("viewBox", "0 0 720 460");
+  svg.setAttribute("viewBox", `0 0 ${TREE_VIEWBOX.w} ${TREE_VIEWBOX.h}`);
 
-  // 分支標籤
+  // 分支標籤(直式:標在各欄頂端)
   const branchLabels: [string, number, string][] = [
-    [`🌈 ${content.branches.color}`, 130, BRANCH_COLORS.color],
-    [`🎬 ${content.branches.shot}`, 360, BRANCH_COLORS.shot],
-    [`🎵 ${content.branches.rhythm}`, 590, BRANCH_COLORS.rhythm],
+    [`🌈 ${content.branches.color}`, 62, BRANCH_COLORS.color],
+    [`🎬 ${content.branches.shot}`, 180, BRANCH_COLORS.shot],
+    [`🎵 ${content.branches.rhythm}`, 298, BRANCH_COLORS.rhythm],
   ];
   for (const [label, x, color] of branchLabels) {
     const t = document.createElementNS(svgNS, "text");
     t.setAttribute("x", String(x));
-    t.setAttribute("y", "24");
+    t.setAttribute("y", "34");
     t.setAttribute("text-anchor", "middle");
     t.setAttribute("style", `fill:${color};font-size:15px;font-weight:800;font-family:var(--font)`);
     t.textContent = label;
@@ -127,13 +127,13 @@ export function setupUI(content: ContentData, progress: Progress, cb: UICallback
 
     const halo = document.createElementNS(svgNS, "circle");
     halo.classList.add("halo");
-    halo.setAttribute("r", "30");
+    halo.setAttribute("r", "32");
     halo.setAttribute("stroke", color);
     g.appendChild(halo);
 
     const bg = document.createElementNS(svgNS, "circle");
     bg.classList.add("bg");
-    bg.setAttribute("r", "24");
+    bg.setAttribute("r", "26");
     g.appendChild(bg);
 
     const icon = document.createElementNS(svgNS, "text");
@@ -157,7 +157,6 @@ export function setupUI(content: ContentData, progress: Progress, cb: UICallback
     function paint(on: boolean) {
       g.classList.toggle("on", on);
       bg.style.stroke = on ? color : "";
-      bg.style.fill = on ? "#3a2c78" : "";
       icon.style.opacity = on ? "1" : "0.35";
     }
     paint(talentOn.has(node.id));
@@ -176,16 +175,14 @@ export function setupUI(content: ContentData, progress: Progress, cb: UICallback
   refreshLinks();
   treeHost.appendChild(svg);
 
-  // ---------- 面板開關 ----------
-  $("#btn-bag").addEventListener("click", () => $("#bag-panel").classList.toggle("hidden"));
-  $("#btn-talent").addEventListener("click", () => $("#talent-overlay").classList.toggle("hidden"));
-  document.querySelectorAll<HTMLElement>(".panel-close").forEach((btn) =>
-    btn.addEventListener("click", () => $(`#${btn.dataset.close}`).classList.add("hidden"))
+  // ---------- 側欄收合 ----------
+  document.querySelectorAll<HTMLElement>(".collapse-btn").forEach((btn) =>
+    btn.addEventListener("click", () => btn.closest(".side-panel")!.classList.toggle("collapsed"))
   );
-  // 點技能樹外側暗處也可關閉
-  $("#talent-overlay").addEventListener("click", (e) => {
-    if (e.target === e.currentTarget) $("#talent-overlay").classList.add("hidden");
-  });
+  // 窄螢幕預設收合,留出舞台
+  if (innerWidth < 900) {
+    document.querySelectorAll(".side-panel").forEach((p) => p.classList.add("collapsed"));
+  }
 
   $("#btn-reset").addEventListener("click", () => {
     if (confirm("要開始新的冒險嗎?所有進度會清空!")) cb.onReset();

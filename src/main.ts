@@ -3,12 +3,12 @@ import { createStage } from "./scene.ts";
 import { Adventurer, type HeroVariant } from "./character.ts";
 import { buildEquip } from "./equipment.ts";
 import { ParticleSystem } from "./particles.ts";
-import { tween, updateTweens, easeOutBack } from "./tween.ts";
+import { tween, updateTweens, easeOutBack, easeOutCubic } from "./tween.ts";
 import { setupUI, showToast, updateHud } from "./ui.ts";
 import { loadProgress, saveProgress, resetProgress, type Progress } from "./state.ts";
 import { MODELS, BRANCH_COLORS, type TalentBranch } from "./content.ts";
 import { loadContent, allItems, totalExp, levelFor, CONTENT_KEY } from "./contentStore.ts";
-import { playEquip, playUnequip, playTalent, playLevelUp } from "./sound.ts";
+import { playEquip, playUnequip, playTalent, playLevelUp, playReveal } from "./sound.ts";
 
 // ---------- 課程內容(可在 /edit.html 編輯) ----------
 const content = loadContent();
@@ -90,32 +90,56 @@ function equipItem(id: string, animate: boolean) {
     const n = [...hero.equipped.values()].filter((e) => e.slot === "badge").length;
     group.position.x += (n % 2 === 0 ? 1 : -1) * Math.ceil(n / 2) * 0.45;
   }
-  slotGroup.add(group);
+  // 建模函式定義的最終姿勢(slot-local)
+  const finalPos = group.position.clone();
+  const finalQuat = group.quaternion.clone();
+  const finalScale = group.scale.x;
+
   hero.equipped.set(id, { group, slot });
 
-  if (!animate) return;
+  if (!animate) {
+    slotGroup.add(group);
+    return;
+  }
 
-  // 從天而降 + 旋轉 + 彈性落定
-  const finalY = group.position.y;
-  const finalScale = group.scale.x;
-  group.position.y = finalY + 2.6;
-  group.scale.setScalar(0.15);
+  // ===== 出場動畫:先在鏡頭正前方亮相,再飛到角色身上 =====
+  const dir = stage.camera.getWorldDirection(new THREE.Vector3());
+  const showPos = stage.camera.position.clone().addScaledVector(dir, 3.4);
+  stage.scene.add(group);
+  group.position.copy(showPos);
+  group.rotation.set(0, 0, 0);
+  group.scale.setScalar(0.01);
+  playReveal();
+  particles.burst(showPos, "#9fd0ff", 12);
 
-  tween(0.9, (k) => {
-    group.position.y = finalY + 2.6 * (1 - k);
-    const s = 0.15 + (finalScale - 0.15) * k;
-    group.scale.setScalar(Math.max(s, 0.001));
-    group.rotation.y = (1 - k) * Math.PI * 4;
+  // 階段1:放大亮相 + 緩慢自轉展示
+  tween(1.25, (k) => {
+    const grow = Math.min(k * 2.4, 1); // 前 40% 放大,其餘持續旋轉
+    group.scale.setScalar(Math.max(0.01 + (1.1 - 0.01) * grow, 0.001));
+    group.rotation.y = k * Math.PI * 3;
   }, {
-    ease: easeOutBack,
+    ease: easeOutCubic,
     onDone: () => {
-      group.rotation.y = 0;
-      const p = new THREE.Vector3();
-      group.getWorldPosition(p);
-      particles.burst(p, "#ffd166");
-      playEquip();
-      hero.happyJump();
-      showToast(`${item.icon} 獲得「${item.name}」!`);
+      // 階段2:保持世界姿勢轉入裝備槽,飛向角色落定
+      slotGroup.attach(group);
+      const startPos = group.position.clone();
+      const startQuat = group.quaternion.clone();
+      const startScale = group.scale.x;
+      tween(0.55, (k) => {
+        group.position.lerpVectors(startPos, finalPos, k);
+        group.quaternion.slerpQuaternions(startQuat, finalQuat, k);
+        group.scale.setScalar(Math.max(startScale + (finalScale - startScale) * k, 0.001));
+      }, {
+        ease: easeOutCubic,
+        onDone: () => {
+          const p = new THREE.Vector3();
+          group.getWorldPosition(p);
+          particles.burst(p, "#ffd166");
+          playEquip();
+          hero.happyJump();
+          showToast(`${item.icon} 獲得「${item.name}」!`);
+        },
+      });
     },
   });
 }
