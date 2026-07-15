@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { toon, mesh } from "./materials.ts";
 import type { EquipSlot, TalentBranch } from "./content.ts";
-import { BRANCH_COLORS } from "./content.ts";
+import { AuraRig, makeAttachSlots, type Hero, type HeroVariant, type EquippedEntry } from "./heroTypes.ts";
 
-export type HeroVariant = "boy" | "girl";
+export type { HeroVariant } from "./heroTypes.ts";
 
 const SKIN = "#ffdcc0";
 const TUNIC = "#f2e8d2";   // 奶油色底衣(參考圖)
@@ -13,16 +13,12 @@ const GOLD = "#d9a94e";
 const BOY_HAIR = "#9fc3d4";  // 淺藍灰短髮
 const GIRL_HAIR = "#ecd07a"; // 金色長髮
 
-interface EquippedEntry {
-  group: THREE.Group;
-  slot: EquipSlot;
-}
-
 /**
  * RO 騎士風少年/少女冒險者(約4頭身 SD 動漫比例),
  * 程式化低多邊形 + toon 材質,含裝備掛點與待機動畫。
+ * 若 public/models/ 有外部模型,會改用 modelHero.ts 載入,此為 fallback。
  */
-export class Adventurer {
+export class Adventurer implements Hero {
   root = new THREE.Group();
   readonly variant: HeroVariant;
 
@@ -30,24 +26,10 @@ export class Adventurer {
   private armR = new THREE.Group();
   private head = new THREE.Group();
 
-  attach: Record<EquipSlot, THREE.Group> = {
-    head: new THREE.Group(),
-    crown: new THREE.Group(),
-    handR: new THREE.Group(),
-    handL: new THREE.Group(),
-    back: new THREE.Group(),
-    chest: new THREE.Group(),
-    feet: new THREE.Group(),
-    belt: new THREE.Group(),
-    companion: new THREE.Group(),
-    badge: new THREE.Group(),
-  };
-
+  attach = makeAttachSlots();
   equipped = new Map<string, EquippedEntry>();
 
-  private auraGroup = new THREE.Group();
-  private auraSparks: { m: THREE.Mesh; phase: number; r: number; h: number; speed: number }[] = [];
-
+  private aura = new AuraRig();
   private jumpT = -1;
 
   constructor(variant: HeroVariant = "boy") {
@@ -169,8 +151,8 @@ export class Adventurer {
     g.add(this.attach.badge);
 
     // ---- 天賦光環 ----
-    this.auraGroup.position.y = 1.15;
-    g.add(this.auraGroup);
+    this.aura.group.position.y = 1.15;
+    g.add(this.aura.group);
   }
 
   private buildFace() {
@@ -300,28 +282,7 @@ export class Adventurer {
 
   /** 依已點亮的天賦分支更新光環粒子 */
   setAura(branches: Set<TalentBranch>) {
-    for (const s of this.auraSparks) this.auraGroup.remove(s.m);
-    this.auraSparks = [];
-    let i = 0;
-    for (const b of branches) {
-      const color = BRANCH_COLORS[b];
-      for (let k = 0; k < 4; k++) {
-        const m = mesh(
-          new THREE.OctahedronGeometry(0.045),
-          toon(color, { emissive: color, emissiveIntensity: 0.9 }),
-          false
-        );
-        this.auraGroup.add(m);
-        this.auraSparks.push({
-          m,
-          phase: (i * 4 + k) * 1.7,
-          r: 0.72 + (k % 2) * 0.22,
-          h: -0.35 + ((k + i) % 3) * 0.5,
-          speed: 0.7 + (k % 3) * 0.25,
-        });
-      }
-      i++;
-    }
+    this.aura.set(branches);
   }
 
   update(t: number, dt: number) {
@@ -351,10 +312,6 @@ export class Adventurer {
       }
     }
 
-    for (const s of this.auraSparks) {
-      const a = t * s.speed + s.phase;
-      s.m.position.set(Math.cos(a) * s.r, s.h + Math.sin(t * 1.8 + s.phase) * 0.1, Math.sin(a) * s.r);
-      s.m.rotation.y = a * 2;
-    }
+    this.aura.update(t);
   }
 }
