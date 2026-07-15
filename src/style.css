@@ -103,6 +103,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; font-family: var(--fon
   transition: color .2s, border-color .2s;
 }
 #btn-reset:hover { color: var(--gold-bright); border-color: var(--panel-line); }
+#model-credit { margin-top: 8px; font-size: 10.5px; color: #6b7698; text-align: center; letter-spacing: .5px; }
+#model-credit a { color: #8a96bc; text-decoration: none; }
+#model-credit a:hover { color: var(--gold); }
 
 /* ---------- 章節標題(金字 + 兩側細線) ---------- */
 .chapter-title {

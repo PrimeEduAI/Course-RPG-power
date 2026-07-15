@@ -16,6 +16,16 @@ interface BoneMap {
   hips?: THREE.Object3D;
 }
 
+/** 每模型設定檔(模型同名 .json,選用):隱藏展示用節點、微調裝備錨點 */
+export interface ModelConfig {
+  /** 要整個移除的節點名稱(精確比對) */
+  hide?: string[];
+  /** 自動等高失準時的手動縮放校正(乘在正規化縮放之上) */
+  extraScale?: number;
+  /** 世界座標錨點覆寫(套用在無骨骼的 fallback 掛點,或強制覆寫) */
+  anchors?: Partial<Record<string, { pos?: [number, number, number]; scale?: number }>>;
+}
+
 export class ModelHero implements Hero {
   root = new THREE.Group();
   readonly variant: HeroVariant;
@@ -32,15 +42,33 @@ export class ModelHero implements Hero {
   private baseArmL = new THREE.Euler();
   private baseArmR = new THREE.Euler();
 
-  constructor(variant: HeroVariant, model: THREE.Group, vrm: VRM | null, bones: BoneMap, height: number) {
+  constructor(
+    variant: HeroVariant,
+    model: THREE.Group,
+    vrm: VRM | null,
+    bones: BoneMap,
+    height: number,
+    config: ModelConfig = {}
+  ) {
     this.variant = variant;
     this.vrm = vrm;
 
-    const scale = TARGET_HEIGHT / height;
+    const scale = (TARGET_HEIGHT / height) * (config.extraScale ?? 1);
     model.scale.setScalar(scale);
     // VRM1 原生面向 +Z;VRM0 由 rotateVRM0 對齊成 +Z;一般 GLB 假設 +Z
     this.root.add(model);
     this.root.name = "adventurer";
+
+    // 置中:模型 pivot 不一定在腳底中心,把包圍盒對齊(水平置中、腳底貼地)
+    {
+      model.updateMatrixWorld(true);
+      const bb = new THREE.Box3().setFromObject(model);
+      const cx = (bb.min.x + bb.max.x) / 2;
+      const cz = (bb.min.z + bb.max.z) / 2;
+      model.position.x -= cx;
+      model.position.y -= bb.min.y;
+      model.position.z -= cz;
+    }
 
     // ---- 先放下手臂(VRM 預設 T-pose),再做掛點量測 ----
     if (vrm) {
@@ -84,6 +112,15 @@ export class ModelHero implements Hero {
       fallbackY: number
     ) => {
       const g = this.attach[slot];
+      // 設定檔覆寫(世界座標)
+      const ov = config.anchors?.[slot];
+      if (ov) {
+        if (ov.pos) {
+          worldPos = new THREE.Vector3(...ov.pos);
+          fallbackY = ov.pos[1];
+        }
+        if (ov.scale !== undefined) factor = ov.scale;
+      }
       g.scale.setScalar(factor);
       if (bone) {
         bone.add(g);
@@ -119,6 +156,11 @@ export class ModelHero implements Hero {
     this.root.add(this.attach.companion);
     this.attach.badge.position.set(0, TARGET_HEIGHT + 0.45, 0);
     this.root.add(this.attach.badge);
+    for (const slot of ["feet", "companion", "badge"] as const) {
+      const ov = config.anchors?.[slot];
+      if (ov?.pos) this.attach[slot].position.set(...ov.pos);
+      if (ov?.scale !== undefined) this.attach[slot].scale.setScalar(ov.scale);
+    }
 
     // ---- 天賦光環 ----
     this.aura.group.position.y = TARGET_HEIGHT * 0.55;
@@ -195,12 +237,35 @@ function modelHeight(obj: THREE.Object3D): number {
   return Math.max(box.max.y - box.min.y, 0.1);
 }
 
+/** 讀取模型同名 .json 設定檔(選用) */
+async function loadModelConfig(modelUrl: string): Promise<ModelConfig> {
+  const cfgUrl = modelUrl.replace(/\.(vrm|glb|gltf)$/i, ".json");
+  try {
+    const res = await fetch(cfgUrl);
+    const type = res.headers.get("content-type") ?? "";
+    if (res.ok && !type.includes("text/html")) {
+      const cfg = await res.json();
+      if (cfg && typeof cfg === "object") return cfg as ModelConfig;
+    }
+  } catch { /* 沒有設定檔就用預設 */ }
+  return {};
+}
+
 /** 載入 VRM 或 GLB,回傳 ModelHero;失敗丟出例外 */
 export async function loadModelHero(url: string, variant: HeroVariant): Promise<ModelHero> {
   const loader = new GLTFLoader();
   loader.register((parser) => new VRMLoaderPlugin(parser));
-  const gltf = await loader.loadAsync(url);
+  const [gltf, config] = await Promise.all([loader.loadAsync(url), loadModelConfig(url)]);
   const vrm: VRM | undefined = gltf.userData.vrm;
+
+  // 隱藏(移除)展示用節點——要在量測身高/置中之前做
+  if (config.hide?.length) {
+    const doomed: THREE.Object3D[] = [];
+    (vrm?.scene ?? gltf.scene).traverse((o) => {
+      if (config.hide!.includes(o.name)) doomed.push(o);
+    });
+    for (const o of doomed) o.removeFromParent();
+  }
 
   if (vrm) {
     VRMUtils.removeUnnecessaryVertices(gltf.scene);
@@ -216,7 +281,7 @@ export async function loadModelHero(url: string, variant: HeroVariant): Promise<
       chest: h.getRawBoneNode("upperChest") ?? h.getRawBoneNode("chest") ?? undefined,
       hips: h.getRawBoneNode("hips") ?? undefined,
     };
-    return new ModelHero(variant, vrm.scene as THREE.Group, vrm, bones, modelHeight(vrm.scene));
+    return new ModelHero(variant, vrm.scene as THREE.Group, vrm, bones, modelHeight(vrm.scene), config);
   }
 
   // 一般 GLB:骨骼名稱啟發式(支援 Mixamo / Meshy 常見命名)
@@ -229,7 +294,7 @@ export async function loadModelHero(url: string, variant: HeroVariant): Promise<
     chest: findBoneSimple(scene, /upperchest|chest|spine2|spine02|spine_02/i) ?? undefined,
     hips: findBoneSimple(scene, /hips|pelvis/i) ?? undefined,
   };
-  return new ModelHero(variant, scene, null, bones, modelHeight(scene));
+  return new ModelHero(variant, scene, null, bones, modelHeight(scene), config);
 }
 
 /** 依序探測可用的模型檔;找不到回傳 null */

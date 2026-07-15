@@ -17,10 +17,26 @@
 - **GLB**:用骨骼名稱猜測掛點(支援 Mixamo / Meshy 常見命名),不保證每隻模型都完美。
   來源:Sketchfab(下載時選 glTF)、Meshy AI 生成。
 
-## 目前的 hero.vrm
+## 目前的模型
 
-pixiv 官方 three-vrm 範例模型(MIT 授權,白色人偶),只是用來驗證載入管線,
-找到喜歡的騎士模型後直接覆蓋它即可。
+- `hero-girl.glb` + `hero-girl.json`:**"Girl knight" by Sool**
+  (來源 [Sketchfab](https://sketchfab.com/3d-models/girl-knight-084e97be8dc3428ba23665686747831f),
+  授權 **CC BY-NC 4.0**——需標註作者(冒險頁左欄底部已標註)、**不可商業使用**;
+  收費課程請換成可商用的模型,檔案同名替換即可)。
+- 少年目前用內建程式化騎士;要換就放 `hero-boy.vrm/.glb`。
+
+## 每模型設定檔(模型同名 .json,選用)
+
+```json
+{
+  "hide": ["要移除的節點名稱"],
+  "extraScale": 1.5,
+  "anchors": { "head": { "pos": [0, 1.9, 0], "scale": 0.5 } }
+}
+```
+- `hide`:移除展示用節點(例:Girl knight 附帶一套並排展示的空盔甲)
+- `extraScale`:自動等高失準時手動校正
+- `anchors`:各裝備掛點的世界座標與縮放(無骨骼的靜態模型必用)
 
 ## 授權提醒
 

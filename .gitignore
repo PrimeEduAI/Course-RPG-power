@@ -1,6 +1,7 @@
 node_modules
 dist
 
-# 外部模型檔通常有各自授權,不進版控(README 除外)
+# 外部模型檔通常有各自授權,不進版控(README 與設定檔除外)
 public/models/*
 !public/models/README.md
+!public/models/*.json
