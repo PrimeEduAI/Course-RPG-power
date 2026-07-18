@@ -1,0 +1,772 @@
+[
+  {
+    "file": "Meshy_AI_Brown_Leather_Belt_wi_0717121619_texture.glb",
+    "suggestedName": "male-belt.glb",
+    "characterPart": "腰帶",
+    "contractNode": "Belt",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 13059736,
+    "sha256": "fce13f6daa83f2711647de27772f29104fd300ac68b97cc32336d74ee8671ef3",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 169802,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9502,
+      -0.6161,
+      -0.104
+    ],
+    "bboxMax": [
+      0.9481,
+      0.6129,
+      0.1021
+    ],
+    "dimensions": [
+      1.8982,
+      1.229,
+      0.2061
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 14158,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體拆選;帶身偏細,與參考圖寬腰帶+扣具有差距,可先組裝觀察,不合格再重生成",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Crimson_Crossblade_Tr_0717121545_texture.glb",
+    "suggestedName": "boy-sword.glb",
+    "characterPart": "長劍",
+    "contractNode": "props/boy-sword",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 13492296,
+    "sha256": "eac37e4b1e4b5913647077ecef0c5fcb04b98115c719821eb2082db042ddef0a",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 178518,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9505,
+      -0.1594,
+      -0.9461
+    ],
+    "bboxMax": [
+      0.9486,
+      0.1612,
+      0.9423
+    ],
+    "dimensions": [
+      1.8991,
+      0.3206,
+      1.8885
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 9052,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體(同設計異尺寸)拆選;護手/劍格/柄結構完整,品質高",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Crimson_Star_Shield_0717121626_texture.glb",
+    "suggestedName": "boy-shield.glb",
+    "characterPart": "盾牌",
+    "contractNode": "props/boy-shield",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 23529156,
+    "sha256": "72b1fe44d24943073e0bc99526122f3a0d759f0cffb52ca41bd9493fc425ebb8",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 528562,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9506,
+      -0.4076,
+      -0.6251
+    ],
+    "bboxMax": [
+      0.9487,
+      0.4096,
+      0.6233
+    ],
+    "dimensions": [
+      1.8993,
+      0.8172,
+      1.2484
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 20086,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體拆選(中間為側視薄片,不可用);盾面底色偏深灰,與參考白銀色不符,需材質校色",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Fleur_de_Lis_Vanguard_0717122050_texture.glb",
+    "suggestedName": "male-torso-armor.glb",
+    "characterPart": "胸甲/騎士上衣",
+    "contractNode": "TorsoArmor",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 33191752,
+    "sha256": "8d72c5e4ba41fddecacb30a8e741a7607d70a0c49a47834d2fabc356bf48382b",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 824638,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9504,
+      -0.2764,
+      -0.4901
+    ],
+    "bboxMax": [
+      0.9485,
+      0.2786,
+      0.4828
+    ],
+    "dimensions": [
+      1.8989,
+      0.555,
+      0.9729
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 46408,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體拆選;無袖設計與 body 制服袖層疊合理;面數 82 萬全場最高,後續需大幅減面",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Gilded_Pauldrons_0717122020_texture.glb",
+    "suggestedName": "male-shoulder-mantle.glb",
+    "characterPart": "肩披甲+護頸圈",
+    "contractNode": "ShoulderMantle",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 21214988,
+    "sha256": "7a157d7fe8e12fe8a23e2e424e3a6405fb728d259f2ad75c2dddd2f3bd80fad2",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 424184,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9506,
+      -0.2602,
+      -0.1774
+    ],
+    "bboxMax": [
+      0.9488,
+      0.2623,
+      0.1765
+    ],
+    "dimensions": [
+      1.8995,
+      0.5224,
+      0.3539
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 27712,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體拆選;造型與參考圖金色高領披甲相符",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Navy_Cape_with_Silver_0717121644_texture.glb",
+    "suggestedName": "male-cape.glb",
+    "characterPart": "披風",
+    "contractNode": "Cape",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 18576980,
+    "sha256": "7629e43b4ae3691091991012b84d1b010c0fa7b1ecc66089b3371f81d14ae6bb",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 452590,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9502,
+      -0.4041,
+      -0.4712
+    ],
+    "bboxMax": [
+      0.9483,
+      0.4058,
+      0.468
+    ],
+    "dimensions": [
+      1.8986,
+      0.8099,
+      0.9391
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 20058,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體拆選(右側實體最完整);銀白鑲邊與參考一致",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Navy_Ivory_Uniform_Co_0717121401_texture.glb",
+    "suggestedName": "male-body-uniform.glb",
+    "characterPart": "男性裸身+制服底衣(含臉、手、便鞋)",
+    "contractNode": "Body",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 12792100,
+    "sha256": "33139457f2144940cd53582d90263e2d45e83c806f287e7b0f0b313329ddfe0d",
+    "meshObjects": 1,
+    "viewInstancesFused": 1,
+    "triangles": 188164,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.4828,
+      -0.145,
+      -0.9508
+    ],
+    "bboxMax": [
+      0.4801,
+      0.1513,
+      0.9487
+    ],
+    "dimensions": [
+      0.9629,
+      0.2963,
+      1.8994
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "Z",
+    "integrity": {
+      "nonManifoldEdges": 12780,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 1
+    },
+    "verdict": "accept",
+    "notes": "品質良好:anime 臉部、完整手掌、6.5~7 頭身;非流形邊需在 retopo 階段處理",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Silver_Knight_Boots_0717121603_texture.glb",
+    "suggestedName": "male-boots-alt.glb",
+    "characterPart": "金屬騎士靴(單腳)",
+    "contractNode": "GreaveBoot(備用)",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 19425804,
+    "sha256": "b9176d8c054ed3e47c719a88dd7fd8e6c6d037cbe385fd3f9bc27b9f2d327849",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 401338,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9505,
+      -0.2756,
+      -0.4249
+    ],
+    "bboxMax": [
+      0.9485,
+      0.2744,
+      0.4251
+    ],
+    "dimensions": [
+      1.899,
+      0.55,
+      0.85
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 18212,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "spare",
+    "notes": "與 greaves 檔內容重疊(較矮版本);先保留備用,不進組裝",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_Snow_Fur_Hat_Three_Vi_0717121632_texture.glb",
+    "suggestedName": "male-hair.glb",
+    "characterPart": "男性頭髮",
+    "contractNode": "Hair",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 25805516,
+    "sha256": "3e2b31b10f31c7d9645d23587a4a305b1013b408b14a0465892efcd5222e8db0",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 602590,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9504,
+      -0.2888,
+      -0.2771
+    ],
+    "bboxMax": [
+      0.9484,
+      0.2907,
+      0.277
+    ],
+    "dimensions": [
+      1.8989,
+      0.5796,
+      0.5541
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 67734,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 視角實體需拆選;髮色偏白,需往淺藍灰校色(貼圖階段)",
+    "accepted": false
+  },
+  {
+    "file": "Meshy_AI_White_Knight_Greaves_0717121611_texture.glb",
+    "suggestedName": "male-greave-boot.glb",
+    "characterPart": "腿甲+靴(單腳,含膝甲)",
+    "contractNode": "GreaveBoot_L/R",
+    "provider": "meshy",
+    "generation": "manual-web-ui",
+    "generationDate": "2026-07-17",
+    "sizeBytes": 20681156,
+    "sha256": "b7ae05c38f32729b68b3b2eae226f7a21f2c10f9f032aead250d89102c51b680",
+    "meshObjects": 1,
+    "viewInstancesFused": 3,
+    "triangles": 458390,
+    "materials": 1,
+    "textures": [
+      {
+        "name": "Image_0",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_1",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_2",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "name": "Image_3",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "pbrChannels": {
+      "baseColor": true,
+      "normal": true,
+      "metallicRoughness": true,
+      "emissive": true
+    },
+    "hasArmature": false,
+    "hasAnimations": false,
+    "bboxMin": [
+      -0.9507,
+      -0.3214,
+      -0.4693
+    ],
+    "bboxMax": [
+      0.9487,
+      0.3243,
+      0.4665
+    ],
+    "dimensions": [
+      1.8994,
+      0.6457,
+      0.9358
+    ],
+    "objectOrigins": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "tallestAxis": "X",
+    "integrity": {
+      "nonManifoldEdges": 20644,
+      "looseVerts": 0,
+      "zeroAreaFaces": 0,
+      "duplicateFaceCenters": 0
+    },
+    "verdict": "repair",
+    "notes": "3 實體拆選 + 鏡射出另一腳;含膝甲,覆蓋範圍與參考相符",
+    "accepted": false
+  }
+]
