@@ -1,0 +1,42 @@
+{
+  "coordinate_system": {
+    "up_axis": "+Y",
+    "forward_axis": "+Z",
+    "character_origin": "feet_center",
+    "unit": "meter"
+  },
+  "male": {
+    "body": "male/body.glb",
+    "hair": "male/hair.glb",
+    "torso_armor": "male/torso_armor.glb",
+    "shoulder_mantle": "male/shoulder_mantle.glb",
+    "cape": "male/cape.glb",
+    "belt": "male/belt.glb",
+    "gauntlet_left": "male/gauntlet_left.glb",
+    "gauntlet_right": "male/gauntlet_right.glb",
+    "greave_boot_left": "male/greave_boot_left.glb",
+    "greave_boot_right": "male/greave_boot_right.glb",
+    "sword": "male/sword.glb",
+    "shield": "male/shield.glb"
+  },
+  "female": {
+    "body": "female/body.glb",
+    "hair": "female/hair.glb",
+    "chest_armor": "female/chest_armor.glb",
+    "shoulder_mantle": "female/shoulder_mantle.glb",
+    "cape": "female/cape.glb",
+    "belt": "female/belt.glb",
+    "gauntlet_left": "female/gauntlet_left.glb",
+    "gauntlet_right": "female/gauntlet_right.glb",
+    "greave_boot_left": "female/greave_boot_left.glb",
+    "greave_boot_right": "female/greave_boot_right.glb",
+    "bow": "female/bow.glb",
+    "shield": "female/shield.glb"
+  },
+  "sockets": {
+    "weapon_right": "Weapon_R",
+    "shield_left": "Shield_L",
+    "back": "Back_Socket",
+    "hip": "Hip_Socket"
+  }
+}

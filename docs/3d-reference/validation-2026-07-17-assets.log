@@ -1,0 +1,102 @@
+# 執行時間:2026-07-17 13:45 CST(v2 修長比例版)
+
+## npm run build
+```
+
+> ai-video-quest@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 33 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/edit.html                          1.36 kB │ gzip:   0.92 kB
+dist/index.html                         1.90 kB │ gzip:   1.07 kB
+dist/assets/edit-DdX71pw5.css           5.52 kB │ gzip:   1.73 kB
+dist/assets/main-yOvK77QH.css           9.43 kB │ gzip:   2.69 kB
+dist/assets/edit-BOWUEZ0L.js            3.82 kB │ gzip:   1.94 kB
+dist/assets/contentStore-CSl3Mp84.js    5.03 kB │ gzip:   2.95 kB
+dist/assets/main-De1-08Yr.js          825.88 kB │ gzip: 214.79 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.96s
+exit code: 0
+```
+
+## npm run validate:knights
+```
+
+> ai-video-quest@0.1.0 validate:knights
+> node scripts/validate-knights.mjs
+
+模組化騎士資產驗證(契約 v1)
+
+◆ 角色 public/models/knights/hero-boy-modular.glb
+  ✔ Body skinned mesh
+  ✔ Hair skinned mesh
+  ✔ TorsoArmor skinned mesh
+  ✔ ShoulderMantle skinned mesh
+  ✔ Cape skinned mesh
+  ✔ Belt skinned mesh
+  ✔ Gauntlet_L skinned mesh
+  ✔ Gauntlet_R skinned mesh
+  ✔ GreaveBoot_L skinned mesh
+  ✔ GreaveBoot_R skinned mesh
+  ✔ Socket_Weapon_R 空節點 socket
+  ✔ Socket_Shield_L 空節點 socket
+  ✔ Socket_Back 空節點 socket
+  ✔ Socket_Hip 空節點 socket
+  ✔ 高度 2.091(目標 2.05;bind pose 近似)
+  ✔ 腳底 y=0.018(原點需在腳底)
+  ✔ 水平中心 (0.000, -0.001)
+  ✔ Idle clip:Idle, Equip
+  ─ 三角面 21,260,材質 20,動畫 [Idle, Equip]
+
+◆ 角色 public/models/knights/hero-girl-modular.glb
+  ✔ Body skinned mesh
+  ✔ Hair skinned mesh
+  ✔ TorsoArmor skinned mesh
+  ✔ ShoulderMantle skinned mesh
+  ✔ Cape skinned mesh
+  ✔ Belt skinned mesh
+  ✔ Gauntlet_L skinned mesh
+  ✔ Gauntlet_R skinned mesh
+  ✔ GreaveBoot_L skinned mesh
+  ✔ GreaveBoot_R skinned mesh
+  ✔ Socket_Weapon_R 空節點 socket
+  ✔ Socket_Shield_L 空節點 socket
+  ✔ Socket_Back 空節點 socket
+  ✔ Socket_Hip 空節點 socket
+  ✔ 高度 2.079(目標 2.05;bind pose 近似)
+  ✔ 腳底 y=0.018(原點需在腳底)
+  ✔ 水平中心 (0.000, -0.001)
+  ✔ Idle clip:Idle, Equip
+  ─ 三角面 30,848,材質 21,動畫 [Idle, Equip]
+
+◆ 道具 public/models/knights/props/boy-sword.glb
+  ✔ 尺寸 0.22 × 1.01 × 0.06(公尺)
+  ✔ 原點(握柄/把手)需在模型範圍內
+  ─ 三角面 1,816,材質 6
+
+◆ 道具 public/models/knights/props/boy-shield.glb
+  ✔ 尺寸 0.39 × 0.68 × 0.10(公尺)
+  ✔ 原點(握柄/把手)需在模型範圍內
+  ─ 三角面 1,204,材質 6
+
+◆ 道具 public/models/knights/props/girl-bow.glb
+  ✔ 尺寸 0.05 × 0.97 × 0.22(公尺)
+  ✔ 原點(握柄/把手)需在模型範圍內
+  ─ 三角面 1,728,材質 3
+
+◆ 道具 public/models/knights/props/girl-shield.glb
+  ✔ 尺寸 0.39 × 0.68 × 0.10(公尺)
+  ✔ 原點(握柄/把手)需在模型範圍內
+  ─ 三角面 1,204,材質 5
+
+結果:✔ 全部通過
+exit code: 0
+```
