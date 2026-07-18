@@ -5,3 +5,20 @@ dist
 public/models/*
 !public/models/README.md
 !public/models/*.json
+# 模組化騎士:契約與說明進版控,GLB(含 dev placeholder)不進
+!public/models/knights/
+public/models/knights/*
+!public/models/knights/README.md
+!public/models/knights/equipment-manifest.json
+
+# Secrets
+.env
+.env.*
+
+# AI 生成 raw 資產(Git LFS 追蹤,見 .gitattributes)
+
+# 組裝工作檔(checkpoint .blend,可重建,不進版控)
+assets/work/
+
+# 參考圖打包檔(內容與 docs/3d-reference 重複,不進版控)
+knight_modular_3d_reference.zip
