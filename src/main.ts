@@ -10,6 +10,10 @@ import { loadProgress, saveProgress, resetProgress, type Progress } from "./stat
 import { MODELS, BRANCH_COLORS, type TalentBranch } from "./content.ts";
 import { loadContent, allItems, totalExp, levelFor, CONTENT_KEY } from "./contentStore.ts";
 import { playEquip, playUnequip, playTalent, playLevelUp, playReveal } from "./sound.ts";
+import { ModularHero } from "./modularHero.ts";
+import { MODEL_TO_PARTS, type PartId } from "./equipmentRegistry.ts";
+import { EquipAnimator } from "./equipAnimator.ts";
+import { setupDebug3D } from "./debug3d.ts";
 
 async function boot() {
   // ---------- 課程內容(可在 /edit.html 編輯) ----------
@@ -35,6 +39,22 @@ async function boot() {
 
   const particles = new ParticleSystem();
   stage.scene.add(particles.group);
+
+  // 模組化騎士的裝備動畫器(preview→飛行→attach 狀態機)
+  const animator = new EquipAnimator({
+    scene: stage.scene,
+    camera: stage.camera,
+    onReveal: (pos) => { playReveal(); particles.burst(pos, "#9fd0ff", 12); },
+    onImpact: (pos) => { particles.burst(pos, "#ffd166"); playEquip(); },
+    onUnequip: (pos) => particles.burst(pos, "#9fb2c8", 8),
+  });
+  const bindAnimator = () => {
+    if (hero instanceof ModularHero) hero.setAnimator(animator);
+  };
+  bindAnimator();
+
+  // 課程獎勵 id → 已裝上的模組化部件(同部件可被多個獎勵共用,卸下時檢查)
+  const modularEquips = new Map<string, PartId[]>();
 
   // ---------- 進度 ----------
   const progress: Progress = loadProgress();
@@ -64,10 +84,28 @@ async function boot() {
 
   // ---------- 裝備 ----------
   function equipItem(id: string, animate: boolean) {
-    if (hero.equipped.has(id)) return;
     const item = ALL_ITEMS.find((i) => i.id === id);
     if (!item) return;
 
+    // 模組化騎士:課程獎勵對應一組可獨立控制的部件(胸甲+肩披甲、左右腿甲…)
+    const parts = hero instanceof ModularHero ? MODEL_TO_PARTS[item.model] : undefined;
+    if (parts?.length) {
+      if (modularEquips.has(id)) return;
+      modularEquips.set(id, parts);
+      const h = hero as ModularHero;
+      void (async () => {
+        for (const p of parts) {
+          await h.equip(p, { animate }); // 逐件裝備(animate 時依序飛入)
+        }
+        if (animate && hero === h && modularEquips.has(id)) {
+          h.happyJump();
+          showToast(`${item.icon} 獲得「${item.name}」!`);
+        }
+      })();
+      return;
+    }
+
+    if (hero.equipped.has(id)) return;
     const slot = (MODELS[item.model] ?? MODELS.badge).slot;
     const group = buildEquip(item.model);
     const slotGroup = hero.attach[slot];
@@ -127,6 +165,18 @@ async function boot() {
   }
 
   function unequipItem(id: string) {
+    // 模組化部件:只卸下不再被其他已裝備獎勵使用的部件
+    const parts = modularEquips.get(id);
+    if (parts && hero instanceof ModularHero) {
+      modularEquips.delete(id);
+      const stillNeeded = new Set([...modularEquips.values()].flat());
+      playUnequip();
+      for (const p of parts) {
+        if (!stillNeeded.has(p)) void hero.unequip(p, { animate: true });
+      }
+      return;
+    }
+
     const entry = hero.equipped.get(id);
     if (!entry) return;
     hero.equipped.delete(id);
@@ -167,7 +217,10 @@ async function boot() {
     stage.scene.remove(hero.root);
     hero = next;
     stage.scene.add(hero.root);
+    bindAnimator();
+    modularEquips.clear(); // 新角色重新裝備等價部件(保留 equipped state)
     for (const id of progress.equips) equipItem(id, false);
+    debug?.refresh();
     refreshAura();
     refreshHeroBtn();
     particles.burst(new THREE.Vector3(0, 1.3, 0), heroVariant === "girl" ? "#ff9ec4" : "#9fc3d4", 24);
@@ -216,6 +269,9 @@ async function boot() {
   refreshHud(false);
   lastTitle = levelFor(exp(), TOTAL);
 
+  // ---------- 3D 偵錯模式(?debug3d=1) ----------
+  const debug = setupDebug3D(stage, () => hero);
+
   // ---------- 主迴圈 ----------
   const clock = new THREE.Clock();
   function loop() {
@@ -227,13 +283,14 @@ async function boot() {
     hero.update(t, dt);
     particles.update(dt);
     stage.update(t, dt);
+    debug?.update(dt);
     stage.controls.update();
     stage.renderer.render(stage.scene, stage.camera);
   }
   loop();
 
   // 開發偵錯用
-  (window as any).__quest = { stage, get hero() { return hero; }, progress, content };
+  (window as any).__quest = { stage, get hero() { return hero; }, progress, content, animator };
 }
 
 void boot();

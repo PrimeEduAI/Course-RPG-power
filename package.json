@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate:knights": "node scripts/validate-knights.mjs",
+    "make:devknight": "node scripts/make-dev-knight.mjs",
+    "make:knights": "bash scripts/make-knights.sh"
   },
   "dependencies": {
     "@pixiv/three-vrm": "^3.5.5",

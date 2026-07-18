@@ -259,6 +259,39 @@ export const EQUIP_BUILDERS: Record<string, () => THREE.Group> = {
     return g;
   },
 
+  // 左右手甲(fallback 程式化角色用;模組化騎士走 GLB skinned 部件)
+  gauntlets() {
+    const g = new THREE.Group();
+    for (const side of [-1, 1]) {
+      const bracer = mesh(new THREE.CylinderGeometry(0.075, 0.09, 0.22, 12), toon(STEEL));
+      bracer.position.set(0.245 * side, -0.22, 0);
+      g.add(bracer);
+      const cuff = mesh(new THREE.TorusGeometry(0.082, 0.018, 8, 14), toon(GOLD));
+      cuff.rotation.x = Math.PI / 2;
+      cuff.position.set(0.245 * side, -0.12, 0);
+      g.add(cuff);
+      const fist = mesh(new THREE.SphereGeometry(0.07, 12, 10), toon(SILVER));
+      fist.position.set(0.245 * side, -0.35, 0);
+      g.add(fist);
+    }
+    return g;
+  },
+
+  // 騎士腰帶(fallback 程式化角色用)
+  beltArmor() {
+    const g = new THREE.Group();
+    const strap = mesh(new THREE.TorusGeometry(0.2, 0.038, 8, 24), toon("#6e4326"));
+    strap.rotation.x = Math.PI / 2;
+    g.add(strap);
+    const buckle = mesh(new THREE.BoxGeometry(0.09, 0.09, 0.035), toon(GOLD, { emissive: GOLD, emissiveIntensity: 0.3 }));
+    buckle.position.set(0, 0, 0.2);
+    g.add(buckle);
+    const gem = mesh(new THREE.OctahedronGeometry(0.032), toon(RUBY, { emissive: RUBY, emissiveIntensity: 0.5 }));
+    gem.position.set(0, 0, 0.225);
+    g.add(gem);
+    return g;
+  },
+
   // 通用發光徽章
   badge() {
     const g = new THREE.Group();

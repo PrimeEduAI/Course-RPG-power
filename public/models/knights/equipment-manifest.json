@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "coordinateSystem": {
+    "upAxis": "+Y",
+    "forwardAxis": "+Z",
+    "characterOrigin": "feet_center",
+    "unit": "meter",
+    "handedness": "anatomical"
+  },
+  "targetHeight": 2.05,
+  "material": {
+    "workflow": "PBR metallic-roughness",
+    "baseColorColorSpace": "sRGB",
+    "maxTextureSize": 2048
+  },
+  "heroes": {
+    "boy": {
+      "url": "/models/knights/hero-boy-modular.glb",
+      "requiredNodes": [
+        "Armature",
+        "Body",
+        "Hair",
+        "TorsoArmor",
+        "ShoulderMantle",
+        "Cape",
+        "Belt",
+        "Gauntlet_L",
+        "Gauntlet_R",
+        "GreaveBoot_L",
+        "GreaveBoot_R",
+        "Socket_Weapon_R",
+        "Socket_Shield_L",
+        "Socket_Back",
+        "Socket_Hip"
+      ],
+      "animations": { "idle": "Idle", "equip": "Equip" }
+    },
+    "girl": {
+      "url": "/models/knights/hero-girl-modular.glb",
+      "requiredNodes": [
+        "Armature",
+        "Body",
+        "Hair",
+        "TorsoArmor",
+        "ShoulderMantle",
+        "Cape",
+        "Belt",
+        "Gauntlet_L",
+        "Gauntlet_R",
+        "GreaveBoot_L",
+        "GreaveBoot_R",
+        "Socket_Weapon_R",
+        "Socket_Shield_L",
+        "Socket_Back",
+        "Socket_Hip"
+      ],
+      "animations": { "idle": "Idle", "equip": "Equip" }
+    }
+  },
+  "props": {
+    "boy-sword": {
+      "url": "/models/knights/props/boy-sword.glb",
+      "socket": "Socket_Weapon_R",
+      "origin": "grip_center",
+      "position": [0, 0, 0],
+      "rotation": [0.15, 0, 0.28],
+      "scale": [1, 1, 1],
+      "previewScale": 1.0
+    },
+    "boy-shield": {
+      "url": "/models/knights/props/boy-shield.glb",
+      "socket": "Socket_Shield_L",
+      "origin": "back_handle_center",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1],
+      "previewScale": 0.9
+    },
+    "girl-bow": {
+      "url": "/models/knights/props/girl-bow.glb",
+      "socket": "Socket_Weapon_R",
+      "origin": "grip_center",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1],
+      "previewScale": 0.85
+    },
+    "girl-shield": {
+      "url": "/models/knights/props/girl-shield.glb",
+      "socket": "Socket_Shield_L",
+      "origin": "back_handle_center",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1],
+      "previewScale": 0.9
+    }
+  }
+}

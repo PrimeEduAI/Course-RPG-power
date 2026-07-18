@@ -20,6 +20,9 @@ export const MODELS: Record<string, { label: string; slot: EquipSlot }> = {
   boots: { label: "👢 靴子(腳上)", slot: "feet" },
   bell: { label: "🔔 腰帶鈴鐺(腰間)", slot: "belt" },
   badge: { label: "⭐ 發光徽章(頭上飄浮)", slot: "badge" },
+  // 模組化騎士部件(模組化角色 GLB 存在時走 skinned 部件;fallback 角色用程序化近似)
+  gauntlets: { label: "🧤 左右手甲(雙手)", slot: "chest" },
+  beltArmor: { label: "🎗️ 騎士腰帶(腰間)", slot: "belt" },
 };
 
 export interface EquipItem {

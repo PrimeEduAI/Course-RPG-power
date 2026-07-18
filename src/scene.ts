@@ -32,6 +32,10 @@ export function createStage(canvas: HTMLCanvasElement): Stage {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  // PBR 外部模型的正確顯色:sRGB 輸出 + 電影感 tone mapping(不靠 bloom)
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.08;
 
   // 外部模型常用 PBR 金屬材質,需要環境貼圖才不會一片黑
   const pmrem = new THREE.PMREMGenerator(renderer);
